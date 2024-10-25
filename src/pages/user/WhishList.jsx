@@ -6,56 +6,21 @@ import { Empty } from "../../constants/images";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Header } from "../../components";
+import { useWishList } from "../../context/wishlist/WishListContext";
+
+
 const WhishList = () => {
   const { t } = useTranslation();
-  const dummyData = [
-    {
-      id: 1,
-      title: "product 1",
-      price: "2000",
-      actualPrice: "4000",
-      image: product1,
-    },
-    {
-      id: 2,
-      title: "product 2",
-      price: "2000",
-      actualPrice: "4000",
-      image: product1,
-    },
-    {
-      id: 3,
-      title: "product 3",
-      price: "2000",
-      actualPrice: "4000",
-      image: product1,
-    },
-    {
-      id: 4,
-      title: "product 4",
-      price: "2000",
-      actualPrice: "4000",
-      image: product1,
-    },
-    {
-      id: 5,
-      title: "product 5",
-      price: "2000",
-      actualPrice: "4000",
-      image: product1,
-    },
-  ];
-  const [filterdWhishList, setFilteredWhishList] = useState(dummyData);
+  const {wishList,removeWishList} = useWishList()
 
   const handleRemoveWhishList = (id) => {
-    const filtered = filterdWhishList.filter((item) => item.id !== id);
-    setFilteredWhishList(filtered);
+    removeWishList(id);
   };
   return (
     <>
       <Header title={t("Wishlist")} />
       <section className="min-h-screen bg-[#F2E9E4] px-4 md:px-16 py-16">
-        {filterdWhishList.length === 0 ? (
+        {wishList.length === 0 ? (
           <div className="w-full h-full py-16 flexCenter flex-col gap-2">
             <img
               src={Empty}
@@ -76,7 +41,7 @@ const WhishList = () => {
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3  gap-y-4 gap-2 md:gap-4 lg:grid-cols-3 xl:grid-cols-4">
-            {filterdWhishList.map((item) => (
+            {wishList.map((item) => (
               <div
                 key={item.id}
                 className="flex flex-col group  bg-white relative md:border p-1 md:p-3 md:shadow-md rounded-2xl"

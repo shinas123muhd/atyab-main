@@ -4,26 +4,18 @@ import { Link } from "react-router-dom";
 import ProductTable from "../../components/user/cart/productTable";
 import { useTranslation } from "react-i18next";
 import { CartEmpty, Seller } from "../../constants/images";
+import { useCart } from "../../context/cart";
 
 const Cart = () => {
-  const cartItems = [
-    {
-      id: 1,
-      title: "Alexandrite Image Edp",
-      count: 2,
-      ProductMeasure: 100,
-      price: 2500,
-      image: Seller,
-    },
-  ];
-  const [cart, setCart] = useState(cartItems);
+const {cartItems} = useCart()
+
   const { t } = useTranslation();
   return (
     <>
       <Header title={"Cart"} />
       <section className="px-4 py-10 md:p-16 flex flex-col  font-poppins">
         {/* cart header  */}
-        {cart.length === 0 ? (
+        {cartItems.length === 0 ? (
           <div className="h-[80vh] flexCenter flex-col gap-3">
             <img
               src={CartEmpty}
@@ -55,7 +47,7 @@ const Cart = () => {
               </div>
             </div>
             {/* cart content section  */}
-            <ProductTable cart={cart} setCart={setCart} />
+            <ProductTable />
           </>
         )}
       </section>

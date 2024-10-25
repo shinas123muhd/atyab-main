@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import { WishListProvider } from "../../context/wishlist/WishListContext";
 import UserLayout from "../../layouts/user";
 import {
   AboutUs,
@@ -13,10 +14,13 @@ import {
   Shop,
   WhishList,
 } from "../../pages";
+import { CartProvider } from "../../context/cart";
 
 const UserRoute = () => {
   return (
     <>
+    <CartProvider>
+    <WishListProvider>
       <Routes>
         <Route path="/" element={<UserLayout />}>
           <Route index element={<LandingPage />} />
@@ -31,6 +35,8 @@ const UserRoute = () => {
           <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
+      </WishListProvider>
+      </CartProvider>
     </>
   );
 };

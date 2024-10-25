@@ -3,19 +3,33 @@ import { Compare, FilledLike, Like, Share } from "../../../../constants/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+import { useWishList } from "../../../../context/wishlist/WishListContext";
+import { useCart } from "../../../../context/cart";
+
 const ProductItems = ({ item }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [whishList, setWhishlist] = useState(false);
+
+  const { addToWishList, removeWishList, isInWishlist } = useWishList();
+  const {addToCart , removeCartItem, cartItems} = useCart();
+  
   const handleWhishList = (event) => {
     // Prevents the click event from closing the menu
     event.stopPropagation();
-    setWhishlist(!whishList);
+    if (isInWishlist(item.id)) {
+      removeWishList(item.id);
+    } else {
+      addToWishList(item);
+    }
   };
+  console.log(cartItems,'cartitems')
+  const handleAddCart=()=>{
+    addToCart(item)
+  }
   return (
     <div
       key={item.id}
-      onClick={() => navigate(`/product/${item.id}`)}
+      onClick={() => navigate('/cart')}
       className="flex flex-col shadow-md  rounded-md overflow-hidden relative group cursor-pointer"
     >
       <div className="flexCenter w-full md:max-h-[300px] overflow-hidden">
@@ -40,7 +54,7 @@ const ProductItems = ({ item }) => {
       {/* shadow effect 🎨  */}
       <div className="absolute z-30 opacity-0 group-hover:opacity-100 transition-all duration-500 top-0 left-0 right-0 bottom-0 bg-black/50 flexCenter">
         <div className="flexCenter flex-col w-full ">
-          <button className="bg-white text-xs md:text-base w-[75%] py-3 font-semibold">
+          <button onClick={handleAddCart} className="bg-white text-xs md:text-base w-[75%] py-3 font-semibold">
             {t("Add to cart")}
           </button>
           <div className="flexCenter my-5 text-white gap-2  md:gap-4 text-xs md:text-base">
@@ -57,7 +71,7 @@ const ProductItems = ({ item }) => {
               className=" cursor-pointer flexStart gap-1"
             >
               <img
-                src={whishList ? FilledLike : Like}
+                src={isInWishlist(item.id) ? FilledLike : Like}
                 alt="like"
                 className="w-5"
               />

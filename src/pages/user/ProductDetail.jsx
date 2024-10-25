@@ -28,41 +28,15 @@ const ProductDetail = () => {
       price: "210.00",
       image: product1,
     },
-    {
-      id: 1,
-      title: "Syltherine",
-      brand: "on brand",
-      price: "210.00",
-      image: product1,
-    },
-    {
-      id: 2,
-      title: "Syltherine",
-      brand: "on brand",
-      price: "210.00",
-      image: product1,
-    },
-    {
-      id: 3,
-      title: "Syltherine",
-      brand: "on brand",
-      price: "210.00",
-      image: product1,
-    },
-    {
-      id: 4,
-      title: "Syltherine",
-      brand: "on brand",
-      price: "210.00",
-      image: product1,
-    },
+
+
   ];
   return (
     <section className="min-h-screen px-4 md:px-10 lg:px-16  font-poppins ">
-      <div className="grid gap-7 md:gap-0 md:grid-cols-2 w-full my-6 md:my-24 ">
+      {productList.map((product)=>(<div key={product.id} className="grid gap-7 md:gap-0 md:grid-cols-2 w-full my-6 md:my-24 ">
         <div className="flex order-2 md:order-1 flex-col gap-2 md:gap-3">
           <h1 className="text-lg md:text-4xl font-semibold">
-            Old Cambodian Oud Oil
+            {product.title}
           </h1>
           <div className="flexStart gap-2">
             <div className="flexStart gap-1 text-yellow-500">
@@ -130,7 +104,7 @@ const ProductDetail = () => {
             <img src={product1} alt="" />
           </div>
         </div>
-      </div>
+      </div>))}
       {/* reviews  */}
       <div className="flex flex-col py-16">
         {/* review filter  */}

@@ -11,6 +11,8 @@ import ClearIcon from "@mui/icons-material/Clear";
 import AuthForm from "./authForm";
 import PersonIcon from "@mui/icons-material/Person";
 import ProfileMenu from "./profileMenu";
+import { useCart } from "../../../context/cart";
+
 const Navbar = () => {
   const { t, i18n } = useTranslation();
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -23,6 +25,8 @@ const Navbar = () => {
   const profileMenuRef = useRef();
   const navigate = useNavigate();
   // For closing the langauge switch modal while click outside of that modal
+const {cartItemCount} = useCart()
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (languageRef.current && !languageRef.current.contains(event.target)) {
@@ -179,7 +183,7 @@ const Navbar = () => {
                       className="absolute -top-4 -right-4 w-5 aspect-square  
                       rounded-full bg-black text-white text-xs md:text-sm flexCenter"
                     >
-                      1
+                      {cartItemCount}
                     </div>
                   )}
                   {item.title === "user" && (

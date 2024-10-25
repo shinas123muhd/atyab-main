@@ -2,14 +2,11 @@ import React, { useState } from "react";
 
 import CartItems from "../cartItem";
 import { useTranslation } from "react-i18next";
-const ProductTable = ({ cart, setCart }) => {
+import { useCart } from "../../../../context/cart";
+const ProductTable = () => {
   const { t } = useTranslation();
 
-  const removeItemFromCart = (id) => {
-    console.log(id);
-    const filtered = cart.filter((item) => item.id !== id);
-    setCart(filtered);
-  };
+const {cartItems,removeCartItem} = useCart()
   return (
     <table className="w-full my-10 ">
       <thead>
@@ -22,7 +19,7 @@ const ProductTable = ({ cart, setCart }) => {
         </tr>
       </thead>
       <tbody>
-        {cart.map((item) => (
+        {cartItems.map((item) => (
           <CartItems
             key={item.id}
             id={item.id}
@@ -31,7 +28,7 @@ const ProductTable = ({ cart, setCart }) => {
             count={item.count}
             ProductMeasure={item.ProductMeasure}
             price={item.price}
-            removeItemFromCart={removeItemFromCart}
+            removeItemFromCart={removeCartItem}
           />
         ))}
       </tbody>

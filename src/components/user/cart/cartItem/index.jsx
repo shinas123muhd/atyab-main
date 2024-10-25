@@ -1,24 +1,26 @@
 import React, { useState } from "react";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import { useCart } from "../../../../context/cart";
 
 const CartItems = ({
   image,
   title,
-  count,
   ProductMeasure,
   price,
   id,
   removeItemFromCart,
 }) => {
+  
+  const {quantityIncrement,quantityDecrement,cartItems} = useCart()
+
+  // Find the current item in cartItems
+  const currentItem = cartItems.find(item => item.id === id);
+
+  // Get the count from the current item, defaulting to 1 if not found
+  const count = currentItem ? currentItem.count : 1;
+
   const [quantity, setQuantity] = useState(count);
 
-  const handleQuantityChange = (operation) => {
-    if (operation === "increment") {
-      setQuantity(quantity + 1);
-    } else {
-      setQuantity(Math.max(quantity - 1, 1));
-    }
-  };
   return (
     <tr key={id}>
       <td className="">
@@ -42,14 +44,14 @@ const CartItems = ({
               <div className="flexBetween md:w-[180px] px-5 p-2 md:p-3 gap-4  md:gap-9  border">
                 <button
                   className="text-gray-500 hover:text-gray-700 focus:outline-none"
-                  onClick={() => handleQuantityChange("decrement")}
+                  onClick={() => quantityDecrement(id)}
                 >
                   -
                 </button>
-                <span className="mx-2">{quantity}</span>
+                <span className="mx-2">{count}</span>
                 <button
                   className="text-gray-500 hover:text-gray-700 focus:outline-none"
-                  onClick={() => handleQuantityChange("increment")}
+                  onClick={() => quantityIncrement(id)}
                 >
                   +
                 </button>
@@ -69,14 +71,14 @@ const CartItems = ({
           <div className="flexBetween w-[180px] px-5 md:p-3 gap-9  border">
             <button
               className="text-gray-500 hover:text-gray-700 focus:outline-none"
-              onClick={() => handleQuantityChange("decrement")}
+              onClick={() => quantityDecrement(id)}
             >
               -
             </button>
-            <span className="mx-2">{quantity}</span>
+            <span className="mx-2">{count}</span>
             <button
               className="text-gray-500 hover:text-gray-700 focus:outline-none"
-              onClick={() => handleQuantityChange("increment")}
+              onClick={() => quantityIncrement(id)}
             >
               +
             </button>
@@ -91,7 +93,7 @@ const CartItems = ({
       </td>
 
       <td className="text-right font-semibold align-top py-8   text-sm md:text-base">
-        {price * quantity}
+        {price * count}
       </td>
     </tr>
   );
