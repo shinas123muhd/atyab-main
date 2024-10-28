@@ -24,14 +24,14 @@ const CartItems = ({
     setQuantity(count);
   }, [count]);
   
-  // Handle input change allowing empty value
+ 
   const handleQuantityChange = (e) => {
     const value = e.target.value;
-    // Allow an empty input or only valid numbers
+    
     if (value === "" || /^[0-9]+$/.test(value)) {
-      setQuantity(value); // Temporarily set the empty string
+      setQuantity(value); 
   
-      // Update the cart context with the new value, if it's a valid number
+      
       const parsedValue = parseInt(value, 10);
       if (!isNaN(parsedValue) && parsedValue > 0) {
         setCartItems((prevItems) =>
@@ -43,10 +43,10 @@ const CartItems = ({
     }
   };
   
-  // Reset to the original count if input is empty on blur
+
   const handleBlur = () => {
     if (quantity === "") {
-      setQuantity(count); // Reset to original if empty
+      setQuantity(count); 
     }
   };
 
