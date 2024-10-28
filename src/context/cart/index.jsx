@@ -29,7 +29,7 @@ export const CartProvider =({children})=>{
         
     }
     const quantityIncrement=(productId)=>{
-        setCartItems((prevItems) =>(prevItems.map((item)=>item.id === productId ? {...item, count:item.count + 1}: item)))
+        setCartItems(prevItems =>prevItems.map(item=>item.id === productId ? {...item, count:item.count + 1}: item))
     }
     const quantityDecrement=(productId)=>{
         setCartItems((prevItems)=>(prevItems.map((item)=>item.id===productId ? {...item , count:item.count -1 }: item).filter(item=>item.count > 0)))
@@ -38,8 +38,10 @@ export const CartProvider =({children})=>{
     const cartItemCount = cartItems.reduce((total,item)=>total + item.count,0)
 
 
+
+
 const values = {
-    cartItems,addToCart,removeCartItem,cartItemCount,quantityIncrement,quantityDecrement
+    cartItems,addToCart,removeCartItem,cartItemCount,quantityIncrement,quantityDecrement,setCartItems
 }
 
 return (

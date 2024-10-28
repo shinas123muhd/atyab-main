@@ -11,15 +11,28 @@ const CartItems = ({
   removeItemFromCart,
 }) => {
   
-  const {quantityIncrement,quantityDecrement,cartItems} = useCart()
+  const {quantityIncrement,quantityDecrement,cartItems,setCartItems} = useCart()
 
-  // Find the current item in cartItems
   const currentItem = cartItems.find(item => item.id === id);
 
-  // Get the count from the current item, defaulting to 1 if not found
   const count = currentItem ? currentItem.count : 1;
 
   const [quantity, setQuantity] = useState(count);
+
+
+  
+  const handleQuantityChange = (e) => {
+    const value = e.target.value;
+    if ( value > 0) {
+      setQuantity(value);
+      
+      setCartItems(prevItems => 
+        prevItems.map(item => 
+          item.id === id ? { ...item, count: value } : item
+        )
+      );
+    }
+  };
 
   return (
     <tr key={id}>
@@ -42,19 +55,25 @@ const CartItems = ({
             </p>
             <div className="flexStart md:hidden gap-3 md:gap-6   ">
               <div className="flexBetween md:w-[180px] px-5 p-2 md:p-3 gap-4  md:gap-9  border">
-                <button
+                {/* <button
                   className="text-gray-500 hover:text-gray-700 focus:outline-none"
                   onClick={() => quantityDecrement(id)}
                 >
                   -
-                </button>
-                <span className="mx-2">{count}</span>
-                <button
+                </button> */}
+                <input
+                  type="number"
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                  className="w-full text-center border rounded"
+                  min="1"
+                />
+                {/* <button
                   className="text-gray-500 hover:text-gray-700 focus:outline-none"
                   onClick={() => quantityIncrement(id)}
                 >
                   +
-                </button>
+                </button> */}
               </div>
               <div
                 onClick={() => removeItemFromCart(id)}
@@ -69,19 +88,25 @@ const CartItems = ({
       <td className="hidden md:block align-top py-5">
         <div className="flexStart gap-6 ">
           <div className="flexBetween w-[180px] px-5 md:p-3 gap-9  border">
-            <button
+            {/* <button
               className="text-gray-500 hover:text-gray-700 focus:outline-none"
               onClick={() => quantityDecrement(id)}
             >
               -
-            </button>
-            <span className="mx-2">{count}</span>
-            <button
+            </button> */}
+            <input
+                  type="number"
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                  className="w-full text-center border rounded"
+                  min="1"
+                />
+            {/* <button
               className="text-gray-500 hover:text-gray-700 focus:outline-none"
               onClick={() => quantityIncrement(id)}
             >
               +
-            </button>
+            </button> */}
           </div>
           <div
             onClick={() => removeItemFromCart(id)}
