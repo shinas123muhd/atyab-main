@@ -24,16 +24,28 @@ const CartItems = ({
     setQuantity(count);
   }, [count]);
   
+  // Handle input change allowing empty value
   const handleQuantityChange = (e) => {
-    const value = parseInt(e.target.value, 10);
-    if (!isNaN(value) && value > 0) {
-      setQuantity(value);
-      
-      setCartItems(prevItems => 
-        prevItems.map(item => 
-          item.id === id ? { ...item, count: value } : item
+    const value = e.target.value;
+    // Allow an empty input or only valid numbers
+    if (value === "" || /^[0-9]+$/.test(value)) {
+      setQuantity(value); // Temporarily set the empty string
+    }
+  };
+
+  // Update context when input loses focus, only if there's a valid number
+  const handleBlur = () => {
+    const parsedValue = parseInt(quantity, 10);
+    if (!isNaN(parsedValue) && parsedValue > 0) {
+      // Update context with new valid value
+      setCartItems((prevItems) =>
+        prevItems.map((item) =>
+          item.id === id ? { ...item, count: parsedValue } : item
         )
       );
+    } else {
+      // Reset to the original count if input is invalid or empty
+      setQuantity(count);
     }
   };
   
@@ -59,25 +71,27 @@ const CartItems = ({
             </p>
             <div className="flexStart md:hidden gap-3 md:gap-6   ">
               <div className="flexBetween md:w-[180px] px-5 p-2 md:p-3 gap-4  md:gap-9  border">
-                {/* <button
+                <button
                   className="text-gray-500 hover:text-gray-700 focus:outline-none"
                   onClick={() => quantityDecrement(id)}
                 >
                   -
-                </button> */}
+                </button>
                 <input
                   type="number"
                   value={quantity}
                   onChange={handleQuantityChange}
+                  onBlur={handleBlur}
                   className="w-full text-center border rounded"
-                  min="1"
+                  min="0"
+                  
                 />
-                {/* <button
+                <button
                   className="text-gray-500 hover:text-gray-700 focus:outline-none"
                   onClick={() => quantityIncrement(id)}
                 >
                   +
-                </button> */}
+                </button>
               </div>
               <div
                 onClick={() => removeItemFromCart(id)}
@@ -92,25 +106,27 @@ const CartItems = ({
       <td className="hidden md:block align-top py-5">
         <div className="flexStart gap-6 ">
           <div className="flexBetween w-[180px] px-5 md:p-3 gap-9  border">
-            {/* <button
+            <button
               className="text-gray-500 hover:text-gray-700 focus:outline-none"
               onClick={() => quantityDecrement(id)}
             >
               -
-            </button> */}
+            </button>
             <input
                   type="number"
                   value={quantity}
+                  onBlur={handleBlur}
                   onChange={handleQuantityChange}
-                  className="w-full text-center border rounded"
-                  min="1"
+                  
+                  className="w-full text-center outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  min="0"
                 />
-            {/* <button
+            <button
               className="text-gray-500 hover:text-gray-700 focus:outline-none"
               onClick={() => quantityIncrement(id)}
             >
               +
-            </button> */}
+            </button>
           </div>
           <div
             onClick={() => removeItemFromCart(id)}
