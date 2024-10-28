@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { useCart } from "../../../../context/cart";
 
@@ -19,11 +19,14 @@ const CartItems = ({
 
   const [quantity, setQuantity] = useState(count);
 
-
+  useEffect(() => {
+    console.log(count)
+    setQuantity(count);
+  }, [count]);
   
   const handleQuantityChange = (e) => {
-    const value = e.target.value;
-    if ( value > 0) {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value) && value > 0) {
       setQuantity(value);
       
       setCartItems(prevItems => 
@@ -33,6 +36,7 @@ const CartItems = ({
       );
     }
   };
+  
 
   return (
     <tr key={id}>
