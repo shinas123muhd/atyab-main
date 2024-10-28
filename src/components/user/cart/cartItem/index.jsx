@@ -30,25 +30,25 @@ const CartItems = ({
     // Allow an empty input or only valid numbers
     if (value === "" || /^[0-9]+$/.test(value)) {
       setQuantity(value); // Temporarily set the empty string
-    }
-  };
-
-  // Update context when input loses focus, only if there's a valid number
-  const handleBlur = () => {
-    const parsedValue = parseInt(quantity, 10);
-    if (!isNaN(parsedValue) && parsedValue > 0) {
-      // Update context with new valid value
-      setCartItems((prevItems) =>
-        prevItems.map((item) =>
-          item.id === id ? { ...item, count: parsedValue } : item
-        )
-      );
-    } else {
-      // Reset to the original count if input is invalid or empty
-      setQuantity(count);
+  
+      // Update the cart context with the new value, if it's a valid number
+      const parsedValue = parseInt(value, 10);
+      if (!isNaN(parsedValue) && parsedValue > 0) {
+        setCartItems((prevItems) =>
+          prevItems.map((item) =>
+            item.id === id ? { ...item, count: parsedValue } : item
+          )
+        );
+      }
     }
   };
   
+  // Reset to the original count if input is empty on blur
+  const handleBlur = () => {
+    if (quantity === "") {
+      setQuantity(count); // Reset to original if empty
+    }
+  };
 
   return (
     <tr key={id}>
@@ -83,7 +83,6 @@ const CartItems = ({
                   onChange={handleQuantityChange}
                   onBlur={handleBlur}
                   className="w-full text-center border rounded"
-                  min="0"
                   
                 />
                 <button
@@ -119,7 +118,7 @@ const CartItems = ({
                   onChange={handleQuantityChange}
                   
                   className="w-full text-center outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                  min="0"
+                  
                 />
             <button
               className="text-gray-500 hover:text-gray-700 focus:outline-none"
